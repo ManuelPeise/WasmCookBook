@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.AppContext.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240404175925_Init-LogMessageTable")]
-    partial class InitLogMessageTable
+    [Migration("20240404190614_Init-Log-Table")]
+    partial class InitLogTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

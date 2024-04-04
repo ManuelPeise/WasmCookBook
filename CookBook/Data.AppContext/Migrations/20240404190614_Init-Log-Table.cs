@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Data.AppContext.Migrations
 {
     /// <inheritdoc />
-    public partial class InitLogMessageTable : Migration
+    public partial class InitLogTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

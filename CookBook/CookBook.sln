@@ -13,13 +13,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Data", "04 Data", "{43ED
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 Shared", "05 Shared", "{C2DEDBC9-148D-427F-864F-A86270FC7FE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Core", "Web.Core\Web.Core.csproj", "{AF0593A2-60E1-44AE-94E2-E9AFB7E2C702}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Core", "Web.Core\Web.Core.csproj", "{AF0593A2-60E1-44AE-94E2-E9AFB7E2C702}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.AppContext", "Data.AppContext\Data.AppContext.csproj", "{1354CAD0-762C-4C3D-AC07-D3B22C9085B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.AppContext", "Data.AppContext\Data.AppContext.csproj", "{1354CAD0-762C-4C3D-AC07-D3B22C9085B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Models", "Data.Models\Data.Models.csproj", "{7950E77F-AD4E-4AA7-B67C-3552FA8804BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Models", "Data.Models\Data.Models.csproj", "{7950E77F-AD4E-4AA7-B67C-3552FA8804BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic.Shared", "Logic.Shared\Logic.Shared.csproj", "{F7C09065-20E6-4C7C-857C-9C9ADE012BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic.Shared", "Logic.Shared\Logic.Shared.csproj", "{F7C09065-20E6-4C7C-857C-9C9ADE012BF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13AC277E-AEE7-4AC2-90BF-B65910426ABC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
