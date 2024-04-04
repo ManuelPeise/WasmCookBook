@@ -6,8 +6,11 @@ namespace Data.Models.Entities.CookBook
     {
         public int RecipeIngredientId => Id;
         public decimal Amount { get; set; }
-        public string Unit { get; set; } = string.Empty;
-        
+
+        public int UnitId { get; set; }
+        [ForeignKey(nameof(UnitId))]
+        public virtual UnitEntity Unit { get; set; } = new UnitEntity();
+
         public int RecipeId { get; set; }
         [ForeignKey(nameof(RecipeId))]
         public virtual RecipeEntity Recipe { get; set; } = new RecipeEntity();

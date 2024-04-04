@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Data.AppContext\Data.AppContext.csproj" />
     <ProjectReference Include="..\Logic.CookBook\Logic.CookBook.csproj" />
+    <ProjectReference Include="..\Service.CookBook\Service.CookBook.csproj" />
     <ProjectReference Include="..\Web.Shared\Web.Shared.csproj" />
   </ItemGroup>
 

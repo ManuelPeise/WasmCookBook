@@ -10,6 +10,7 @@ namespace Logic.CookBook.Interfaces
         public IRepositoryBase<CategoryEntity> CategoryRepository { get; }
         public IRepositoryBase<IngredientEntity> IngredientRepository { get; }
         public IRepositoryBase<RecipeIngredientEntity> RecipeIngredientRepository { get; }
+        public IRepositoryBase<UnitEntity> IngredientUnitRepository { get; }
 
         Task<List<RecipeModel>> GetRecipes(int? categoryId);
         Task<List<IngredientModel>> GetIngredients();

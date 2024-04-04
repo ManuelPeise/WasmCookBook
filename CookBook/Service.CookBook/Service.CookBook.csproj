@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data.AppContext\Data.AppContext.csproj" />
+    <ProjectReference Include="..\Logic.CookBook\Logic.CookBook.csproj" />
+    <ProjectReference Include="..\Service.Shared\Service.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

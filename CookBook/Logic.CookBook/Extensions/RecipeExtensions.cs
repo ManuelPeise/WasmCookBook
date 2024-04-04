@@ -38,7 +38,7 @@ namespace Logic.CookBook.Extensions
             };
         }
 
-        internal static RecipeIngredientModel ToUiModel(this RecipeIngredientEntity entity, string name, CategoryModel category)
+        internal static RecipeIngredientModel ToUiModel(this RecipeIngredientEntity entity, string name, CategoryModel category, UnitModel unit)
         {
             return new RecipeIngredientModel
             {
@@ -47,7 +47,7 @@ namespace Logic.CookBook.Extensions
                 Amount = entity.Amount,
                 Category = category,
                 Name = name,
-                Unit = entity.Unit,
+                Unit = unit,
             };
         }
 

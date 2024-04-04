@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 ServiceConfiguration.ConfigureServices(builder.Services, builder.Configuration);
 
 builder.Services.AddRazorComponents();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -24,6 +25,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.MapControllers();
 app.MapRazorComponents<App>();
 
 app.Run();

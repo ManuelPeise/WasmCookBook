@@ -1,0 +1,18 @@
+{
+    "description": "recipe description",
+    "image": "base64string",
+    "Ingredients": [
+        {
+            "amount": 0.0,
+            "categoryId": 0,
+            "name": "test ingredient",
+            "unit": "liter"
+        }
+    ],
+    "RecipeCategory": {
+        "categoryId": 0,
+        "categoryName": "Test Kategorie"
+    },
+    "shortDescription": "short description",
+    "title": "recipe title"
+}

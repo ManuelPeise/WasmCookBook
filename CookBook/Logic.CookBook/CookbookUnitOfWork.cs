@@ -17,12 +17,13 @@ namespace Logic.CookBook
         private IRepositoryBase<CategoryEntity>? _categoryRepository;
         private IRepositoryBase<IngredientEntity>? _ingredientRepository;
         private IRepositoryBase<RecipeIngredientEntity>? _recipeIngredientRepository;
+        private IRepositoryBase<UnitEntity>? _ingredientUnitRepository;
 
         public IRepositoryBase<RecipeEntity> RecipeRepository => _recipeRepository ?? new RepositoryBase<RecipeEntity>(_context);
         public IRepositoryBase<CategoryEntity> CategoryRepository => _categoryRepository ?? new RepositoryBase<CategoryEntity>(_context);
         public IRepositoryBase<IngredientEntity> IngredientRepository => _ingredientRepository ?? new RepositoryBase<IngredientEntity>(_context);
         public IRepositoryBase<RecipeIngredientEntity> RecipeIngredientRepository => _recipeIngredientRepository ?? new RepositoryBase<RecipeIngredientEntity>(_context);
-
+        public IRepositoryBase<UnitEntity> IngredientUnitRepository => _ingredientUnitRepository ?? new RepositoryBase<UnitEntity>(_context);
         public CookbookUnitOfWork(AppDbContext context) : base(context)
         {
             _context = context;
@@ -66,7 +67,13 @@ namespace Logic.CookBook
                                 WhereExpression = x => x.IngredientId == ingredient.IngredientId
                             });
 
-                            ingredients.Add(ingredient.ToUiModel(ingredentEntity?.Name, category?.ToUiModel()));
+                            var unit = await IngredientUnitRepository.GetFirstOrDefaultAsync(new DbQuery<UnitEntity>
+                            {
+                                AsNoTracking = true,
+                                WhereExpression = x => x.UnitId == ingredient.UnitId
+                            });
+
+                            ingredients.Add(ingredient.ToUiModel(ingredentEntity?.Name, category?.ToUiModel(), new UnitModel { UnitId = unit.Id, Name = unit.Name }));
 
                         }
 

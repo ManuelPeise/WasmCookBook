@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.AppContext.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240404193950_AddIsRecipeCategoryToCategoryTable")]
-    partial class AddIsRecipeCategoryToCategoryTable
+    [Migration("20240404215251_InitializeDatabase")]
+    partial class InitializeDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,50 @@ namespace Data.AppContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryType = 1,
+                            IsRecipeCategory = true,
+                            Name = "Dessert"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryType = 1,
+                            IsRecipeCategory = true,
+                            Name = "Huhn"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryType = 1,
+                            IsRecipeCategory = true,
+                            Name = "Pasta"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryType = 1,
+                            IsRecipeCategory = true,
+                            Name = "Rind"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryType = 1,
+                            IsRecipeCategory = true,
+                            Name = "Schwein"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryType = 1,
+                            IsRecipeCategory = true,
+                            Name = "Vegetarisch"
+                        });
                 });
 
             modelBuilder.Entity("Data.Models.Entities.CookBook.IngredientEntity", b =>
@@ -110,9 +154,8 @@ namespace Data.AppContext.Migrations
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -120,7 +163,24 @@ namespace Data.AppContext.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeIngredients");
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("RecipeIngredientEntity");
+                });
+
+            modelBuilder.Entity("Data.Models.Entities.CookBook.UnitEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IngredientUnits");
                 });
 
             modelBuilder.Entity("Data.Models.Entities.Logging.LogMessageEntity", b =>
@@ -189,9 +249,17 @@ namespace Data.AppContext.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Data.Models.Entities.CookBook.UnitEntity", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Ingredient");
 
                     b.Navigation("Recipe");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("Data.Models.Entities.CookBook.IngredientEntity", b =>
