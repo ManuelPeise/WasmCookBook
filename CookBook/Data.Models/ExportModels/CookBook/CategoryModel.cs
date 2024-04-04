@@ -1,12 +1,11 @@
 ﻿using Data.Models.Enums.CookBook;
 
-namespace Data.Models.Entities.CookBook
+namespace Data.Models.ExportModels.CookBook
 {
-    public class CategoryEntity : AEntity
+    public class CategoryModel
     {
-        public int CategoryId => Id;
+        public int CategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
         public CategoryTypeEnum CategoryType { get; set; }
-        public bool IsRecipeCategory { get; set; }
     }
 }

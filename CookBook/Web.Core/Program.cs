@@ -1,16 +1,13 @@
-using Data.AppContext;
-using Microsoft.EntityFrameworkCore;
 using Web.Core.Components;
+using Web.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents();
 
-builder.Services.AddDbContext<AppDbContext>(opt =>
-{
-    opt.UseMySQL(builder.Configuration.GetConnectionString("AppDbContext"));
-});
+ServiceConfiguration.ConfigureServices(builder.Services, builder.Configuration);
+
+builder.Services.AddRazorComponents();
 
 var app = builder.Build();
 
