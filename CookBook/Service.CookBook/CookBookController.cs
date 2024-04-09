@@ -49,5 +49,14 @@ namespace Service.CookBook
                 return await service.GetIngredients();
             }
         }
+
+        [HttpGet(Name = "GetAddRecipePageViewModel")]
+        public async Task<AddRecipePageViewModel> GetAddRecipePageViewModel()
+        {
+            using (var service = new CookBookService(_context, _cookBookUnitOfWork))
+            {
+                return await service.GetAddRecipePageModel();
+            }
+        }
     }
 }

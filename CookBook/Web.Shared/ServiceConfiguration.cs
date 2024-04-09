@@ -4,6 +4,7 @@ using Logic.CookBook.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Web.Shared.ViewModels;
 
 namespace Web.Shared
 {
@@ -11,6 +12,7 @@ namespace Web.Shared
     {
         public static void ConfigureServices(IServiceCollection services, IConfiguration config)
         {
+
             // add db context
             services.AddDbContext<AppDbContext>(opt =>
             {
@@ -25,8 +27,10 @@ namespace Web.Shared
             });
 
             // add unit of works
-
             services.AddScoped<ICookBookUnitOfWork, CookbookUnitOfWork>();
+
+            services.AddTransient<CookBookViewModel>();
+            services.AddTransient<AddRecipeViewModel>();
         }
 
     }

@@ -1,0 +1,66 @@
+﻿@page "/cookbook/create-recipe"
+@model Web.Core.Pages.CookBook.AddRecipeModel
+
+<div class="container container-fluid gridContainer">
+    <div class="p-2">
+        <h3>@Model.ResourceHandler.GetResource(Model.NameSpace, "LabelAddRecipePageTitle")</h3>
+    </div>
+    <form class="" method="post" enctype="multipart/form-data">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 p-0">
+                    <div class="grid-column-small form-group">
+                        <input type="text"
+                               class="form-control"
+                               id="recipeTitle"
+                               placeholder="@Model.ResourceHandler.GetResource(Model.NameSpace, "PlaceholderRecipeName")"
+                               asp-for="@Model.RecipeModel.Title">
+                    </div>
+                    <div class="grid-column-small form-group">
+                        <input type="text"
+                               class="form-control"
+                               id="recipeTitle"
+                               placeholder="@Model.ResourceHandler.GetResource(Model.NameSpace, "PlaceholderRecipeShortDescription")"
+                               asp-for="@Model.RecipeModel.ShortDescription">
+                    </div>
+
+                </div>
+                <div class="col-6 grid-image-cell">
+                    <input type="file"
+                           asp-for="@Model.ImageFile"
+                           id="recipe-img-selector"
+                           class="form-control">
+                    <img id="recipe-preview-img"
+                         class="card-img-top"
+                         src="@Model.RecipeModel.Image"
+                         height="50" width="50"
+                         alt="select a image" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col p-0">
+                    <div class="grid-column-full form-group">
+                        <input type="text"
+                               class="form-control"
+                               id="recipeTitle"
+                               placeholder="@Model.ResourceHandler.GetResource(Model.NameSpace, "PlaceholderRecipeDescription")"
+                               asp-for="@Model.RecipeModel.Description">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <select asp-for="@Model.Caregory">
+                @{
+                    foreach (var item in @Model.RecipeCategories)
+                    {
+                        <option value="@item.Name">@item.Name</option>
+                    }
+                }
+            </select>
+         
+        </div>
+        <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+    <script src="/js/addRecipe.js"></script>
+</div>

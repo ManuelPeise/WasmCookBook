@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Cookbook\CookBook.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CookBook.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Cookbook\CookBook.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CookBook.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Resx</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

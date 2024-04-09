@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Web.Core</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/form.css" />
+    <link rel="stylesheet" href="~/Web.Core.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/grid.css" />
+    <script src="https://kit.fontawesome.com/fa73f7e0cd.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Side Bar -->
+        <aside id="sidebar">
+            <div class="h-100">
+                <div class="sidebar-logo">
+                    <img src="/img/cooking.png" alt="logo" />
+                    <a href="/">MyApp</a>
+                </div>
+                <!-- Sidebar  Nav -->
+                <ul class="sidebar-nav">
+                    <li class="sidebar-header">
+                        Pages
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            Pages
+                        </a>
+                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#cookbookpages" aria-expanded="false" aria-controls="#cookbookpages">
+                            <i class="fa-solid fa-utensils pe-2"></i>
+                            CookBook
+                        </a>
+                        <ul id="cookbookpages" class="sidebar-dropdown list-unstyled collapse" data-bs-patent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="/cookbook" class="sidebar-link">
+                                    View
+                                </a>
+                                <a href="cookbook/create-recipe" class="sidebar-link">
+                                    Add
+                                </a>
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <!-- Main Component -->
+        <div class="main">
+            <nav class="navbar navbar-expand navbar-light px-3 border-bottom">
+                <!-- Toggle Button-->
+                <button class="btn border-0" type="button" data-bs-theme="dark">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+            <div class="main-content px-3 py-2">
+                <div class="container-fluid">
+                    <div class="mb-3">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="/js/sidebar.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

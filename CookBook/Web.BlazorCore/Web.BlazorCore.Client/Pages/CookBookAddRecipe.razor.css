@@ -1,0 +1,42 @@
+﻿.grid-container {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.grid-single-row-col-container{
+    padding:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.grid-multi-row-col-container{
+    padding:8px;
+}
+
+.col-one {
+    grid-column: 1/2;
+    margin: 8px;
+}
+
+.col-two {
+    grid-column: 2/2;
+    margin: 8px;
+}
+
+.grid-row{
+    width: 100%;
+    height:auto;
+    margin: 8px 0;
+}
+
+.recipe-img {
+    width: 15rem;
+    height: 15rem;
+}
+
+    .recipe-img:hover {
+        cursor: pointer;
+    }

@@ -7,23 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="MySql.Data" Version="8.3.0" />
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data.AppContext\Data.AppContext.csproj" />
-    <ProjectReference Include="..\Logic.CookBook\Logic.CookBook.csproj" />
     <ProjectReference Include="..\Service.CookBook\Service.CookBook.csproj" />
+    <ProjectReference Include="..\Shared.Resources\Shared.Resources.csproj" />
+    <ProjectReference Include="..\Web.Components\Web.Components.csproj" />
     <ProjectReference Include="..\Web.Shared\Web.Shared.csproj" />
   </ItemGroup>
 

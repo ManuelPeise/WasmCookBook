@@ -14,6 +14,7 @@ namespace Logic.CookBook.Extensions
                 ShortDescription = entity.ShortDescription,
                 Description = entity.Description,
                 Image = entity.Image,
+                Author = entity.Author,
                 Ingredients = ingredients ?? new List<RecipeIngredientModel>()
             };
         }

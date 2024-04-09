@@ -29,6 +29,19 @@ namespace Logic.CookBook
             return await _cookBookUnitOfWork.GetRecipeCategories();
         }
 
+        public async Task<AddRecipePageViewModel> GetAddRecipePageModel()
+        {
+            var recipes = await GetRecipes();
+
+            var model = new AddRecipePageViewModel
+            {
+                RecipeCategories = await GetRecipeCategories(),
+                RecipeNames = recipes.Select(recipe => recipe.Title).ToList(),
+            };
+
+            return model;
+        }
+
         #region dispose
 
         private bool disposedValue;

@@ -1,6 +1,8 @@
-﻿namespace Data.Models.ImportModels.CookBook
+﻿using Data.Models.ImportModels.Interfaces;
+
+namespace Data.Models.ImportModels.CookBook
 {
-    public class RecipeImportModel
+    public class RecipeImportModel: IRecipeImportModel
     {
         public string Title { get; set; } = string.Empty;
         public string ShortDescription { get; set; } = string.Empty;

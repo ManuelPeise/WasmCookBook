@@ -1,0 +1,29 @@
+﻿/** {
+    margin: 0;
+    padding: 0;
+}
+
+.form-container {
+    display: flex;
+}
+
+.form-row {
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    width:100%;
+}
+
+.form-row-item {
+    padding: .5rem;
+    width:100%
+}
+
+.form-control {
+    border: 1.5px solid #f0f5f5;
+}
+
+    .form-control:focus {
+        border: 1.5px solid #cce6ff;
+        box-shadow: none;
+    }*/

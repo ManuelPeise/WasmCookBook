@@ -1,6 +1,4 @@
-﻿
-
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Models.Entities.CookBook
 {
@@ -11,7 +9,8 @@ namespace Data.Models.Entities.CookBook
         public string ShortDescription { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Image { get; set; } = string.Empty;
-        
+        public string Author { get; set; } = string.Empty;
+
         public int FKCategoryId { get; set; }
         [ForeignKey(nameof(FKCategoryId))]
         public virtual CategoryEntity Category { get; set; } = new CategoryEntity();
