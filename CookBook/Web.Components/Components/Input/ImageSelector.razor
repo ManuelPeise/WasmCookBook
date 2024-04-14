@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+<div class="card d-flex justify-content-center align-items-center rounded-circle recipe-img-card">
+    <div class="card-body d-flex justify-content-center align-items-center m-1 h-100">   
+            <InputFile id="@Id"
+                       type="file"
+                       asp-for="@ImgSource"
+                       hidden
+                       OnChange="@OnFileSelect"
+                       class="form-control" />
+            <img id="recipe-preview-img"
+                 class="img-fluid rounded-circle fs-6"
+                 src="@ImgSource"
+                 alt="@Label"
+                 @onclick="HandleImgClicked" />
+    </div>
+</div>
+

@@ -26,6 +26,8 @@ namespace Data.AppContext
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<IngredientEntity> Ingredients { get; set; }
         public DbSet<UnitEntity> IngredientUnits { get; set; }
+        public DbSet<RecipeIngredientEntity> RecipeIngredients { get; set; }
+        public DbSet<RecipeImportEntity> RecipeImports { get; set; }
 
     }
 }

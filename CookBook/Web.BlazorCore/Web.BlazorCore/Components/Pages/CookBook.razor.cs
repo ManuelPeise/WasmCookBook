@@ -1,7 +1,4 @@
 ﻿using Data.Models.ExportModels.CookBook;
-using Microsoft.AspNetCore.Components;
-using Web.Shared.HttpClients;
-
 
 namespace Web.BlazorCore.Components.Pages
 {

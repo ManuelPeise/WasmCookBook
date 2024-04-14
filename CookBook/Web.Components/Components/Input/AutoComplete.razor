@@ -1,0 +1,17 @@
+﻿<div class="form-group">
+    <input id="@Id"
+           class="form-select px-3 m-0"
+           type="text"
+           list="items"
+           value="@TextValue"
+           placeholder="@Placeholder"
+           @oninput="OnTextChanged" />
+    <label id="@_errorFieldId"
+           class="form-text text-muted errorMsg"></label>
+    <datalist id="items">
+        @foreach (var item in Items)
+        {
+            <option class="test" value="@item" />
+        }
+    </datalist>
+</div>

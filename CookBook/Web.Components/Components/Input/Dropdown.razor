@@ -1,0 +1,11 @@
+﻿<div class="form-group">
+    <select id="@Id" class="form-select px-3 m-0" value="@SelectedValue" @onchange="@HandleChange">
+        <option value="0" class="disabled" selected>@DefaultItem</option>
+        @foreach (var item in @Items)
+        {
+            <option value="@item.Id">@item.Value</option>
+        }
+    </select>
+    <label id="@_errorFieldId"
+           class="form-text text-muted errorMsg"></label>
+</div>

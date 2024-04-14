@@ -1,0 +1,50 @@
+﻿<div class="modal" tabindex="-1" role="dialog" style="display:block">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@DialogTitle</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <Dropdown Id="recipe-category"
+                              Validate="true"
+                              ErrorMsg="Keine Kategorie gewählt!"
+                              DefaultItem="Wähle eine Kategorie"
+                              SelectedValue="_ingredient.CategoryId"
+                              Items="@IngredientCategories"
+                              OnChange="@OnCategoryChanged" />
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <NumberTextField Id="ingredient-amount"
+                                         ErrorMsg="Ungültige Eingabe!"
+                                         Placeholder="Enter amount"
+                                         NumberValue="@_ingredient.Amount.ToString()"
+                                         OnChange="@OnAmountChanged" />
+                    </div>
+                    <div class="col-md-6">
+                        <Dropdown Id="recipe-unit"
+                                  Validate="true"
+                                  ErrorMsg="Keine Einheit gewählt!"
+                                  DefaultItem="Wähle eine Einheit"
+                                  SelectedValue="_ingredient.UnitId"
+                                  Items="@Units"
+                                  OnChange="@OnUnitChanged" />
+                    </div>
+                </div>
+                <div class="row">
+                    <TextField Id="ingredient-name"
+                               Validate="true"
+                               ErrorMsg="Bitte Zutatename eingeben!"
+                               TextValue="@_ingredient.Name"
+                               Placeholder="Enter ingredient name"
+                               OnChange="@OnNameChanged" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @onclick="@HandleIngredient">Speichern</button>
+                <button type="button" class="btn btn-secondary" @onclick="@HandleCloseDialog">Schliessen</button>
+            </div>
+        </div>
+    </div>
+</div>

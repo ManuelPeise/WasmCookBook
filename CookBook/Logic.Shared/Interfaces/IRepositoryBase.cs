@@ -8,6 +8,7 @@ namespace Logic.Shared.Interfaces
         Task<IQueryable<T>> GetAllAsync(DbQuery<T> dbQuery);
         Task<T?> GetFirstOrDefaultAsync(DbQuery<T> dbQuery);
         Task<bool> AddAsync(T entity);
+        Task<bool> AddAsync(T entity, bool force = false);
         Task<bool> UpdateAsync(T entity);
         Task<bool> DeleteAsync(int id);
     }

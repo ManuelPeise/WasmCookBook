@@ -1,7 +1,6 @@
-using Web.BlazorCore.Client.Pages;
 using Web.BlazorCore.Components;
 using Web.Shared;
-using Web.Shared.HttpClients;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +10,6 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddControllers();
-
 ServiceConfiguration.ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();

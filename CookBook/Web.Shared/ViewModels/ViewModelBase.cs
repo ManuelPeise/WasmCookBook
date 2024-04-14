@@ -6,6 +6,11 @@ namespace Web.Shared.ViewModels
 {
     public abstract partial class ViewModelBase : ObservableObject, IViewModelBase
     {
+        [ObservableProperty]
+        protected bool _isLoading;
+        [ObservableProperty]
+        protected bool _isInitialized = false;
+
         public virtual async Task OnInitializedAsync()
         {
             await Loaded().ConfigureAwait(true);

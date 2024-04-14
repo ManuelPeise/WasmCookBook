@@ -1,5 +1,7 @@
 ﻿using Data.AppContext;
 using Data.Models.ExportModels.CookBook;
+using Data.Models.ImportModels.CookBook;
+using Data.Models.UI;
 using Logic.CookBook.Interfaces;
 using Logic.Shared;
 
@@ -26,21 +28,37 @@ namespace Logic.CookBook
 
         public async Task<List<CategoryModel>> GetRecipeCategories()
         {
-            return await _cookBookUnitOfWork.GetRecipeCategories();
+            return await _cookBookUnitOfWork.GetCategories(true);
         }
 
         public async Task<AddRecipePageViewModel> GetAddRecipePageModel()
         {
             var recipes = await GetRecipes();
 
+            var recipeCategories = await _cookBookUnitOfWork.GetCategories(true);
+            var ingredientCategories = await _cookBookUnitOfWork.GetCategories(false);
+            var units = await _cookBookUnitOfWork.GetUnits();
+
             var model = new AddRecipePageViewModel
             {
-                RecipeCategories = await GetRecipeCategories(),
-                RecipeNames = recipes.Select(recipe => recipe.Title).ToList(),
+                RecipeCategories = (from cat in recipeCategories select new DropDownItem { Id = cat.CategoryId, Value = cat.Name}).OrderBy(x => x.Value).ToList(),
+                IngredientCategories = (from cat in ingredientCategories select new DropDownItem { Id = cat.CategoryId, Value = cat.Name }).OrderBy(x => x.Value).ToList(),
+                Units = (from unit in units select new DropDownItem { Id = unit.UnitId, Value = unit.Name }).OrderBy(x => x.Value).ToList(),
+                RecipeNames = recipes.Select(recipe => recipe.Title).OrderBy(x => x).ToList(),
             };
 
             return model;
         }
+
+        public async Task<bool> ImportRecipe(RecipeImportModel model)
+        {
+            return await _cookBookUnitOfWork.ImportRecipeRequest(model);
+        }
+
+        //public async Task<bool> ImportRecipe(RecipeImportModel model)
+        //{
+        //    return await _cookBookUnitOfWork.ImportRecipe(model);
+        //}
 
         #region dispose
 

@@ -1,0 +1,19 @@
+{
+  "name": "web.blazorcore",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass:build": "sass --no-source-map wwwroot/scss:wwwroot/css",
+    "sass:watch": "sass --no-source-map --watch wwwroot/scss:wwwroot/css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2",
+    "bootstrap": "^5.3.3",
+    "jquery": "^3.7.1",
+    "sass": "^1.75.0"
+  }
+}

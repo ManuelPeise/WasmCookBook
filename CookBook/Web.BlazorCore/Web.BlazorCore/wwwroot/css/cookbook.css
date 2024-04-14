@@ -1,0 +1,14 @@
+.recipe-img-card {
+  min-height: 200px !important;
+  height: 200px !important;
+  max-height: 200px !important;
+  min-width: 200px !important;
+  width: 200px !important;
+  max-width: 200px !important;
+}
+
+.recipe-img-card img:hover {
+  cursor: pointer;
+  scale: 1.3;
+  transition: all 0.2s ease-in-out;
+}

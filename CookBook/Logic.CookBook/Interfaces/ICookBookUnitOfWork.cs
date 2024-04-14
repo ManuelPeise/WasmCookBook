@@ -1,5 +1,6 @@
 ﻿using Data.Models.Entities.CookBook;
 using Data.Models.ExportModels.CookBook;
+using Data.Models.ImportModels.CookBook;
 using Logic.Shared.Interfaces;
 
 namespace Logic.CookBook.Interfaces
@@ -11,9 +12,13 @@ namespace Logic.CookBook.Interfaces
         public IRepositoryBase<IngredientEntity> IngredientRepository { get; }
         public IRepositoryBase<RecipeIngredientEntity> RecipeIngredientRepository { get; }
         public IRepositoryBase<UnitEntity> IngredientUnitRepository { get; }
+        public IRepositoryBase<RecipeImportEntity> RecipeImportRepository { get; }
 
         Task<List<RecipeModel>> GetRecipes(int? categoryId);
         Task<List<IngredientModel>> GetIngredients();
-        Task<List<CategoryModel>> GetRecipeCategories();
+        Task<List<CategoryModel>> GetCategories(bool isRecipeCategory);
+        Task<List<UnitModel>> GetUnits();
+        Task<bool> ImportRecipe(RecipeImportModel model);
+        Task<bool> ImportRecipeRequest(RecipeImportModel model);
     }
 }

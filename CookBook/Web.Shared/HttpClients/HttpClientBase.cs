@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Web.Shared.HttpClients
 {
@@ -33,6 +30,30 @@ namespace Web.Shared.HttpClients
             }
 
             return default(T);
+        }
+
+        public virtual async Task<bool> SendPostRequest<T>(string url, T model)
+        {
+            var requestUrl = $"{_client.BaseAddress}{url}";
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+            using (var request = new HttpRequestMessage
+            {
+                RequestUri = new Uri(requestUrl),
+                Method = HttpMethod.Post,
+                Content = content 
+
+            })
+            {
+                var response = await _client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

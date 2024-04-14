@@ -2,6 +2,8 @@
 using Data.Models.Entities.CookBook;
 using Data.Models.Entities.Logging;
 using Data.Models.ExportModels.CookBook;
+using Data.Models.ImportModels.CookBook;
+using Data.Models.UI;
 using Logic.CookBook.Extensions;
 using Logic.CookBook.Interfaces;
 using Logic.Shared;
@@ -18,12 +20,14 @@ namespace Logic.CookBook
         private IRepositoryBase<IngredientEntity>? _ingredientRepository;
         private IRepositoryBase<RecipeIngredientEntity>? _recipeIngredientRepository;
         private IRepositoryBase<UnitEntity>? _ingredientUnitRepository;
+        private IRepositoryBase<RecipeImportEntity>? _recipeImportRepository;
 
         public IRepositoryBase<RecipeEntity> RecipeRepository => _recipeRepository ?? new RepositoryBase<RecipeEntity>(_context);
         public IRepositoryBase<CategoryEntity> CategoryRepository => _categoryRepository ?? new RepositoryBase<CategoryEntity>(_context);
         public IRepositoryBase<IngredientEntity> IngredientRepository => _ingredientRepository ?? new RepositoryBase<IngredientEntity>(_context);
         public IRepositoryBase<RecipeIngredientEntity> RecipeIngredientRepository => _recipeIngredientRepository ?? new RepositoryBase<RecipeIngredientEntity>(_context);
         public IRepositoryBase<UnitEntity> IngredientUnitRepository => _ingredientUnitRepository ?? new RepositoryBase<UnitEntity>(_context);
+        public IRepositoryBase<RecipeImportEntity> RecipeImportRepository => _recipeImportRepository ?? new RepositoryBase<RecipeImportEntity>(_context);
         public CookbookUnitOfWork(AppDbContext context) : base(context)
         {
             _context = context;
@@ -98,14 +102,14 @@ namespace Logic.CookBook
             }
         }
 
-        public async Task<List<CategoryModel>> GetRecipeCategories()
+        public async Task<List<CategoryModel>> GetCategories(bool isRecipeCategory)
         {
             try
             {
                 var categories = await CategoryRepository.GetAllAsync(new DbQuery<CategoryEntity>
                 {
                     AsNoTracking = true,
-                    WhereExpression = x => x.IsRecipeCategory
+                    WhereExpression = x => x.IsRecipeCategory == isRecipeCategory
                 });
 
                 if (categories.Any())
@@ -161,6 +165,100 @@ namespace Logic.CookBook
                 });
 
                 return new List<IngredientModel>();
+            }
+        }
+
+        public async Task<List<UnitModel>> GetUnits()
+        {
+            try
+            {
+                var units = await IngredientUnitRepository.GetAllAsync(new DbQuery<UnitEntity>
+                {
+                    AsNoTracking = true,
+                    WhereExpression = null
+                });
+
+                if (units.Any())
+                {
+                    return (from unit in units
+                            select unit.ToUiModel()).ToList();
+                }
+
+                return new List<UnitModel>();
+            }
+            catch (Exception exception)
+            {
+                await LogError(new LogMessageEntity
+                {
+                    Message = "Could not load units from database!",
+                    ExceptionMessage = exception.Message,
+                    Stacktrace = exception.StackTrace ?? string.Empty,
+                    TimeStamp = DateTime.Now,
+                    Trigger = nameof(CookbookUnitOfWork)
+                });
+
+                return new List<UnitModel>();
+            }
+        }
+
+        public async Task<bool> ImportRecipeRequest(RecipeImportModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    return false;
+                }
+
+                var importEntity = model.ToEntity(false);
+
+                await RecipeImportRepository.AddAsync(importEntity, true);
+
+                await SaveChanges();
+
+                return true;
+
+            }
+            catch (Exception exception)
+            {
+                await LogError(new LogMessageEntity
+                {
+                    Message = "Could import recipe!",
+                    ExceptionMessage = exception.Message,
+                    Stacktrace = exception.StackTrace ?? string.Empty,
+                    TimeStamp = DateTime.Now,
+                    Trigger = nameof(CookbookUnitOfWork)
+                });
+
+                return false;
+            }
+        }
+
+        public async Task<bool> ImportRecipe(RecipeImportModel model)
+        {
+            try
+            {
+                if(model == null)
+                {
+                    return false;
+                }
+
+                var recipe = model.ToEntity();
+
+                return true;
+
+            }catch (Exception exception)
+            {
+                await LogError(new LogMessageEntity
+                {
+                    Message = "Could finish recipe import!",
+                    ExceptionMessage = exception.Message,
+                    Stacktrace = exception.StackTrace ?? string.Empty,
+                    TimeStamp = DateTime.Now,
+                    Trigger = nameof(CookbookUnitOfWork)
+                });
+
+                return false;
             }
         }
 

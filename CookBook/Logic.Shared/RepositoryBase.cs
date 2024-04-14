@@ -18,12 +18,12 @@ namespace Logic.Shared
         {
             var query = _table.AsQueryable();
 
-            if(dbQuery.AsNoTracking) 
-            { 
+            if (dbQuery.AsNoTracking)
+            {
                 query = query.AsNoTracking();
             }
 
-            if(dbQuery.WhereExpression != null)
+            if (dbQuery.WhereExpression != null)
             {
                 query = query.Where(dbQuery.WhereExpression);
             }
@@ -50,20 +50,44 @@ namespace Logic.Shared
         {
             var existing = await _table.FindAsync(entity);
 
-            if(existing == null) 
-            { 
+            if (existing == null)
+            {
                 _table.Add(entity);
-          
+
                 return true;
             }
 
             return false;
         }
+
+        public async Task<bool> AddAsync(T entity, bool force = false)
+        {
+            var existing = default(T);
+
+            if (!force)
+            {
+                existing = await _table.FindAsync(entity);
+
+                if (existing == null)
+                {
+                    _table.Add(entity);
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            _table.Add(entity);
+
+            return true;
+        }
+
         public async Task<bool> UpdateAsync(T entity)
         {
             var existing = await _table.FindAsync(entity);
 
-            if(existing != null)
+            if (existing != null)
             {
                 existing = entity;
 
@@ -78,7 +102,7 @@ namespace Logic.Shared
         {
             var existing = await _table.FindAsync(id);
 
-            if(existing != null)
+            if (existing != null)
             {
                 _table.Remove(existing);
 

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Web.Components\Web.Components.csproj" />
     <ProjectReference Include="..\..\Web.Shared\Web.Shared.csproj" />
   </ItemGroup>
 

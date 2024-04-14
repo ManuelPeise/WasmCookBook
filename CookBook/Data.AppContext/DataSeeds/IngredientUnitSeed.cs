@@ -13,17 +13,42 @@ namespace Data.AppContext.DataSeeds
                new UnitEntity
                {
                    Id = 1,
-                   Name = "Kg"
+                   Name = "Kilo"
                },
                new UnitEntity
                {
                    Id = 2,
-                   Name = "g"
+                   Name = "Gramm"
                },
                new UnitEntity
                {
                    Id = 3,
                    Name = "Liter"
+               },
+               new UnitEntity
+               {
+                   Id = 4,
+                   Name = "Milliliter"
+               },
+               new UnitEntity
+               {
+                   Id = 5,
+                   Name = "Stück"
+               },
+               new UnitEntity
+               {
+                   Id = 6,
+                   Name = "Messerspitze"
+               },
+               new UnitEntity
+               {
+                   Id = 7,
+                   Name = "Esslöffen"
+               },
+               new UnitEntity
+               {
+                   Id = 8,
+                   Name = "Teelöffel"
                },
 
            });

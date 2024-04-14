@@ -16,7 +16,7 @@ namespace Data.AppContext.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Data.Models.Entities.CookBook.CategoryEntity", b =>
@@ -81,6 +81,48 @@ namespace Data.AppContext.Migrations
                             CategoryType = 1,
                             IsRecipeCategory = true,
                             Name = "Vegetarisch"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryType = 0,
+                            IsRecipeCategory = false,
+                            Name = "Fisch"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryType = 0,
+                            IsRecipeCategory = false,
+                            Name = "Fleisch"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryType = 0,
+                            IsRecipeCategory = false,
+                            Name = "Gemüse"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryType = 0,
+                            IsRecipeCategory = false,
+                            Name = "Obst"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryType = 0,
+                            IsRecipeCategory = false,
+                            Name = "Getreideprodukte"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryType = 0,
+                            IsRecipeCategory = false,
+                            Name = "Gewürze"
                         });
                 });
 
@@ -140,6 +182,34 @@ namespace Data.AppContext.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("Data.Models.Entities.CookBook.RecipeImportEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ImportFinished")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("ImportFinishedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("ImportedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Json")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RecipeName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecipeImports");
+                });
+
             modelBuilder.Entity("Data.Models.Entities.CookBook.RecipeIngredientEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -166,7 +236,7 @@ namespace Data.AppContext.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("RecipeIngredientEntity");
+                    b.ToTable("RecipeIngredients");
                 });
 
             modelBuilder.Entity("Data.Models.Entities.CookBook.UnitEntity", b =>
@@ -187,17 +257,42 @@ namespace Data.AppContext.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Kg"
+                            Name = "Kilo"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "g"
+                            Name = "Gramm"
                         },
                         new
                         {
                             Id = 3,
                             Name = "Liter"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Milliliter"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Stück"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Messerspitze"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Esslöffen"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Teelöffel"
                         });
                 });
 

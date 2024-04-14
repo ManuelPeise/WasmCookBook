@@ -3,6 +3,6 @@ using Web.Shared.ViewModels;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-builder.Services.AddTransient<AddRecipeViewModel>();
+builder.Services.AddTransient<CookBookViewModel>();
 
 await builder.Build().RunAsync();

@@ -53,6 +53,48 @@ namespace Data.AppContext.DataSeeds
                      CategoryType = CategoryTypeEnum.Recipe,
                      IsRecipeCategory = true,
                 },
+                new CategoryEntity
+                {
+                     Id = 7,
+                     Name = "Fisch",
+                     CategoryType = CategoryTypeEnum.Ingredient,
+                     IsRecipeCategory = false,
+                },
+                new CategoryEntity
+                {
+                     Id = 8,
+                     Name = "Fleisch",
+                     CategoryType = CategoryTypeEnum.Ingredient,
+                     IsRecipeCategory = false,
+                },
+                new CategoryEntity
+                {
+                     Id = 9,
+                     Name = "Gemüse",
+                     CategoryType = CategoryTypeEnum.Ingredient,
+                     IsRecipeCategory = false,
+                },
+                new CategoryEntity
+                {
+                     Id = 10,
+                     Name = "Obst",
+                     CategoryType = CategoryTypeEnum.Ingredient,
+                     IsRecipeCategory = false,
+                },
+                 new CategoryEntity
+                {
+                     Id = 11,
+                     Name = "Getreideprodukte",
+                     CategoryType = CategoryTypeEnum.Ingredient,
+                     IsRecipeCategory = false,
+                },
+                new CategoryEntity
+                {
+                     Id = 12,
+                     Name = "Gewürze",
+                     CategoryType = CategoryTypeEnum.Ingredient,
+                     IsRecipeCategory = false,
+                },
             });
         }
     }

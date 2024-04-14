@@ -1,0 +1,119 @@
+﻿@page "/cookbook/recipes/add"
+@using Web.Shared.Models
+@inherits MvvmConponentBase<CookBookViewModel>
+@rendermode InteractiveAuto
+
+
+@if (_vm.IsLoading == true || _vm.IsInitialized == false)
+{
+    <LoadingIndicator Label="Loading" />
+
+}
+else
+{
+    <div id="add-recipe-container" class="container">
+        <PageHeader Title="Neues Rezept" SubTitle="Sende ein neues Rezept ein." />
+        <div class="container mt-3">
+            <div class="p-2">
+                <!-- Basic Recipe Data -->
+                <div class="row">
+                    <div class="col-md-6 flex-column">
+                        <div class="row mt-4">
+                            <div class="container d-flex justify-content-center align-items-center h-100">
+                                <div class="col-md-12 d-flex justify-content-center mt-3">
+                                    <ImageSelector Id="recipe-img"
+                                                   ImgSource="@_vm.ImgSrc"
+                                                   Label="Bild"
+                                                   OnChange="@_vm.HandleImageChanged" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="row mt-4">
+                                <Dropdown Id="recipe-category"
+                                          Validate="true"
+                                          ErrorMsg="Keine Kategorie gewählt!"
+                                          DefaultItem="Wähle eine Kategorie"
+                                          SelectedValue="_vm.ImportModel.RecipeCategory.CategoryId?? 0"
+                                          Items="@_vm.RecipeCategoryItems"
+                                          OnChange="@_vm.HandleRecipeCategoryChanged" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row mt-4">
+                                <AutoComplete Id="recipe-title"
+                                              Validate="true"
+                                              ErrorMsg="Kein Rezeptname eingegeben!"
+                                              Placeholder="Rezeptname..."
+                                              TextValue="@_vm.ImportModel.Title"
+                                              Items="@_vm.RecipeNames"
+                                              OnChange="@_vm.HandleRecipeTitleChanged" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row mt-4">
+                                <TextField Id="recipe-short-description"
+                                           Validate="true"
+                                           ErrorMsg="Keine Rezeptbeschreibung eingegeben"
+                                           Placeholder="Rezeptbeschreibung..."
+                                           TextValue="@_vm.ImportModel.ShortDescription"
+                                           OnChange="@_vm.HandleRecipeShortDescriptionChanged" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Ingredient Data -->
+                <div class="row">
+                    <div class="col-12 p-2">
+                        <div class="col-12 d-flex justify-content-end px-4">
+                            <button type="button" class="btn btn-primary" @onclick="@_vm.ToggleIngredientDialogOpen">Zutaten</button>
+                        </div>
+                        <div class="container d-flex">
+                            <div class="d-flex flex-wrap justify-content-start gap-2 mt-5">
+                                @for (var index = 0; index < _vm.ImportModel.Ingredients.Count(); index++)
+                                {
+                                    <IngredientChip Amount="@_vm.ImportModel.Ingredients[index].Amount"
+                                                    Unit="@_vm.ImportModel.Ingredients[index].Unit"
+                                                    Name="@_vm.ImportModel.Ingredients[index].Name"
+                                                    AdditionalClasses="chip-blue"
+                                                    Index="@index"
+                                                    OnClick="@_vm.HandleRemoveIngredient" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Recipe description Data -->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <textarea class="form-control"
+                                  type="text"
+                                  placeholder="Zubereitungsinformationen"
+                                  rows="8"
+                                  @oninput="_vm.HandleDescriptionChanged"
+                                  value="@_vm.ImportModel.Description" />
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div class="row mt-5">
+                    <div class="col-12 d-flex justify-content-end gap-2 px-4">
+                        <a href="/cookbook" class="btn btn-primary">Abbrechen</a>
+                        <button id="save-recipe-button" disabled="@_vm.SaveDisabled" class="btn btn-primary" @onclick="@_vm.HandleSaveRecipe">Speichern</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (_vm.IngredientDialogOpen)
+    {
+        <AddIngredientDialog DialogTitle="Zutaten hinzufügen"
+                             IngredientCategories="@_vm.IngredientCategoryItems"
+                             Units="@_vm.UnitItems"
+                             OnAddIngredient="@_vm.HandleAddIngredient"
+                             OnClose="@_vm.HandleCloseDialog" />
+    }
+}

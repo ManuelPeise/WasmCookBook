@@ -1,5 +1,7 @@
 ﻿using Data.Models.Entities.CookBook;
 using Data.Models.ExportModels.CookBook;
+using Data.Models.ImportModels.CookBook;
+using Newtonsoft.Json;
 
 namespace Logic.CookBook.Extensions
 {
@@ -52,5 +54,48 @@ namespace Logic.CookBook.Extensions
             };
         }
 
+        internal static UnitModel ToUiModel(this UnitEntity entity)
+        {
+            return new UnitModel
+            {
+                UnitId = entity.UnitId,
+                Name = entity.Name
+            };
+        }
+
+        internal static RecipeEntity ToEntity(this RecipeImportModel model)
+        {
+            return new RecipeEntity
+            {
+                Author = "",
+                Title = model.Title,
+                ShortDescription = model.ShortDescription,
+                Description = model.Description,
+                FKCategoryId = (int)model.RecipeCategory.CategoryId,
+                Image = model.Image,
+            };
+        }
+
+        internal static RecipeIngredientEntity ToEntity(this RecipeIngredientImportModel model, int recipeId, int ingredientId)
+        {
+            return new RecipeIngredientEntity
+            {
+                RecipeId = recipeId,
+                IngredientId = ingredientId,
+                Amount = model.Amount,
+                UnitId = model.UnitId,
+            };
+        }
+
+        internal static RecipeImportEntity ToEntity(this RecipeImportModel model, bool finished)
+        {
+            return new RecipeImportEntity
+            {
+               RecipeName = model.Title,
+               Json = JsonConvert.SerializeObject(model),
+               ImportedAt = DateTime.UtcNow,
+               ImportFinished = finished,    
+            };
+        }
     }
 }
