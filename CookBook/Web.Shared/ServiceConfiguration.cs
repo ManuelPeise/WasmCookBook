@@ -29,7 +29,7 @@ namespace Web.Shared
             // add unit of works
             services.AddScoped<ICookBookUnitOfWork, CookbookUnitOfWork>();
 
-            services.AddTransient<CookBookViewModel>();
+            services.AddTransient<AddRecipePageViewModel>();
            
         }
 

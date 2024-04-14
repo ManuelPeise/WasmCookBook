@@ -10,7 +10,7 @@ namespace Web.BlazorCore.Client.Pages.CookBook.Components
         protected IJSRuntime Js { get; set; }
         [Inject]
         public IConfiguration? Config { get; set; }
-        private CookBookViewModel? _vm;
+        private AddRecipePageViewModel? _vm;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -21,7 +21,7 @@ namespace Web.BlazorCore.Client.Pages.CookBook.Components
         {
             if (Config != null && _vm == null)
             {
-                _vm = new CookBookViewModel(Config);
+                _vm = new AddRecipePageViewModel(Config);
             }
 
             if(_vm != null && _vm.IsInitialized == false)

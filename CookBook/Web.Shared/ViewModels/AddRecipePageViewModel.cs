@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Data.Models.ExportModels.CookBook;
 using Data.Models.ImportModels.CookBook;
 using Data.Models.UI;
 using Microsoft.AspNetCore.Components;
@@ -10,10 +9,10 @@ using Web.Shared.HttpClients;
 
 namespace Web.Shared.ViewModels
 {
-    public partial class CookBookViewModel : ViewModelBase
+    public partial class AddRecipePageViewModel : ViewModelBase
     {
         private InternalApiClient? _internalApiClient;
-        private AddRecipePageViewModel? _pageModel;
+        private Data.Models.ExportModels.CookBook.AddRecipePageViewModel? _pageModel;
         private const string ImgSrcBase = "data:image/png;base64,";
 
         [ObservableProperty]
@@ -30,7 +29,7 @@ namespace Web.Shared.ViewModels
         public List<DropDownItem> UnitItems { get; set; } = new List<DropDownItem>();
         public List<string> RecipeNames { get; set; } = new List<string>();
 
-        public CookBookViewModel(IConfiguration config)
+        public AddRecipePageViewModel(IConfiguration config)
         {
             InitializeHttpClient(config);
         }
@@ -68,7 +67,12 @@ namespace Web.Shared.ViewModels
         [RelayCommand]
         public void HandleDescriptionChanged(ChangeEventArgs args)
         {
-            ImportModel.Description = args.Value as string;
+            var value = args.Value as string;
+
+            if (value != null)
+            {
+                ImportModel.Description = value;
+            }
 
             CanSaveRecipe();
         }
@@ -145,7 +149,7 @@ namespace Web.Shared.ViewModels
 
             if (_internalApiClient != null)
             {
-                _pageModel = await _internalApiClient.SendGetRequest<AddRecipePageViewModel>("CookBook/GetAddRecipePageViewModel") ?? new AddRecipePageViewModel();
+                _pageModel = await _internalApiClient.SendGetRequest<Data.Models.ExportModels.CookBook.AddRecipePageViewModel>("CookBook/GetAddRecipePageViewModel") ?? new Data.Models.ExportModels.CookBook.AddRecipePageViewModel();
 
                 RecipeCategoryItems = _pageModel.RecipeCategories;
                 IngredientCategoryItems = _pageModel.IngredientCategories;
@@ -163,6 +167,7 @@ namespace Web.Shared.ViewModels
         {
             SaveDisabled = !ImportModel.IsValidModel();
         }
+
         private void InitializeHttpClient(IConfiguration config)
         {
             var baseAddress = config.GetRequiredSection("apiBaseUrl").Value;
