@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Web.Shared.ViewModels;
+using Web.Shared.ViewModels.Cookbook;
 
 namespace Web.Shared
 {
@@ -30,7 +31,8 @@ namespace Web.Shared
             services.AddScoped<ICookBookUnitOfWork, CookbookUnitOfWork>();
 
             services.AddTransient<AddRecipePageViewModel>();
-           
+            services.AddTransient<CookbookViewModel>();
+
         }
 
     }

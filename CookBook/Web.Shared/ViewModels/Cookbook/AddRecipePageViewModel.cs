@@ -11,7 +11,6 @@ namespace Web.Shared.ViewModels
 {
     public partial class AddRecipePageViewModel : ViewModelBase
     {
-        private InternalApiClient? _internalApiClient;
         private Data.Models.ExportModels.CookBook.AddRecipePageViewModel? _pageModel;
         private const string ImgSrcBase = "data:image/png;base64,";
 
@@ -135,7 +134,7 @@ namespace Web.Shared.ViewModels
         {
             ImportModel.Image = ImgSrc;
 
-            if (await _internalApiClient.SendPostRequest("RecipeImport/ImportRecipe", ImportModel))
+            if (await InternalApiClient.SendPostRequest("RecipeImport/ImportRecipe", ImportModel))
             {
                 ImportModel = new RecipeImportModel();
                 ImgSrc = ImgSrcBase;
@@ -147,9 +146,9 @@ namespace Web.Shared.ViewModels
         {
             IsLoading = true;
 
-            if (_internalApiClient != null)
+            if (InternalApiClient != null)
             {
-                _pageModel = await _internalApiClient.SendGetRequest<Data.Models.ExportModels.CookBook.AddRecipePageViewModel>("CookBook/GetAddRecipePageViewModel") ?? new Data.Models.ExportModels.CookBook.AddRecipePageViewModel();
+                _pageModel = await InternalApiClient.SendGetRequest<Data.Models.ExportModels.CookBook.AddRecipePageViewModel>("CookBook/GetAddRecipePageViewModel") ?? new Data.Models.ExportModels.CookBook.AddRecipePageViewModel();
 
                 RecipeCategoryItems = _pageModel.RecipeCategories;
                 IngredientCategoryItems = _pageModel.IngredientCategories;
@@ -166,18 +165,6 @@ namespace Web.Shared.ViewModels
         private void CanSaveRecipe()
         {
             SaveDisabled = !ImportModel.IsValidModel();
-        }
-
-        private void InitializeHttpClient(IConfiguration config)
-        {
-            var baseAddress = config.GetRequiredSection("apiBaseUrl").Value;
-
-            if (baseAddress == null)
-            {
-                throw new Exception("Could not get api base address!");
-            }
-
-            _internalApiClient = new InternalApiClient(new HttpClient { BaseAddress = new Uri(baseAddress) });
         }
 
         private byte[] GetBytes(Stream stream)

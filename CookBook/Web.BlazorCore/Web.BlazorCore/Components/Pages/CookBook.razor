@@ -1,15 +1,30 @@
 ﻿@page "/cookbook"
+@inherits MvvmConponentBase<AddRecipePageViewModel>
 
-<h3>CookBook</h3>
+<div id="cookbook-container" class="container container-fluid">
+   
+    <div class="container">
+        <PageHeader Title="Kochbuch" SubTitle="Find dein Lieblingsrezept noch Heute." />
+        <div class="row mt-2">
+            <!-- recipe filter -->
+        </div>
+        <div class="row mt-2">
+            <!-- recipe card container -->
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6 d-flex justify-content-start">
+                <label class="lead text-muted">Nicht das richtige Rezept dabei?</label>
+            </div>
+            <div class="col-md-6 d-flex d-flex justify-content-end">
+                <a class="btn btn-outline-primary" href="/cookbook/recipes/add">Rezept einsenden</a>
+            </div>
+        </div>
+    </div>
 
-@if(_recipes == null)
-{
-    <p><em>Loading data...</em></p>
-    <NavLink class="nav-link" href="/cookbook/recipes/add">Add new</NavLink>
-}
-else
-{
+    @if (_vm.IsLoading)
+    {
+        <LoadingIndicator Label="Loading" />
+    }
 
-  
-}
+</div>
 
