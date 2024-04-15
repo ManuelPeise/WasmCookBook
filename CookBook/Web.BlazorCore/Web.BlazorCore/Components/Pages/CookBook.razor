@@ -1,10 +1,15 @@
 ﻿@page "/cookbook"
-@inherits MvvmConponentBase<AddRecipePageViewModel>
+@inherits MvvmConponentBase<CookbookViewModel>
 
 <div id="cookbook-container" class="container container-fluid">
    
     <div class="container">
         <PageHeader Title="Kochbuch" SubTitle="Find dein Lieblingsrezept noch Heute." />
+        <div class="top-row mt-2">
+            <div class="col-12 d-flex d-flex justify-content-end">
+                <a class="btn btn-outline-primary" href="/cookbook/recipes/management">Einstellungen</a>
+            </div>
+        </div>
         <div class="row mt-2">
             <!-- recipe filter -->
         </div>

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Configuration;
 using Web.Shared.HttpClients;
 
-namespace Web.Shared.ViewModels
+namespace Web.Shared.ViewModels.Cookbook
 {
     public partial class AddRecipePageViewModel : ViewModelBase
     {

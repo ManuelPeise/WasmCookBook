@@ -1,7 +1,6 @@
 ﻿using Data.Models.ImportModels.CookBook;
 using Data.Models.UI;
 using Microsoft.AspNetCore.Components;
-using Web.Shared.Models;
 
 namespace Web.BlazorCore.Client.Pages.CookBook.Components
 {

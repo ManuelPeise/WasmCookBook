@@ -32,6 +32,7 @@ namespace Web.Shared
 
             services.AddTransient<AddRecipePageViewModel>();
             services.AddTransient<CookbookViewModel>();
+            services.AddTransient<RecipeManagementViewModel>();
 
         }
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Web.Shared.ViewModels;
+using Web.Shared.ViewModels.Cookbook;
 
 namespace Web.BlazorCore.Client.Pages.CookBook.Components
 {
