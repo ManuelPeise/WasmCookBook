@@ -28,9 +28,9 @@ namespace Web.Shared.ViewModels.Cookbook
         public List<DropDownItem> UnitItems { get; set; } = new List<DropDownItem>();
         public List<string> RecipeNames { get; set; } = new List<string>();
 
-        public AddRecipePageViewModel(IConfiguration config)
+        public AddRecipePageViewModel(IConfiguration config) : base(config)
         {
-            InitializeHttpClient(config);
+
         }
 
         [RelayCommand]
@@ -157,7 +157,6 @@ namespace Web.Shared.ViewModels.Cookbook
             }
 
             IsLoading = false;
-            IsInitialized = true;
         }
 
         private void CanSaveRecipe()

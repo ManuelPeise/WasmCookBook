@@ -11,6 +11,26 @@
   transition: all 0.2s ease-in-out;
 }
 
+.img-card img::before {
+  height: 250px;
+  width: 250px;
+  color: transparent !important;
+  content: "";
+}
+
+.img-card img::after {
+  height: 250px;
+  width: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  content: "Kein Bild";
+}
+
 .recipe-preview-img {
   min-height: 250px !important;
   max-height: 250px !important;

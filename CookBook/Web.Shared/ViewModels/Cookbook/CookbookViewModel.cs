@@ -4,9 +4,9 @@ namespace Web.Shared.ViewModels.Cookbook
 {
     public class CookbookViewModel : ViewModelBase
     {
-        public CookbookViewModel(IConfiguration config)
+        public CookbookViewModel(IConfiguration config) : base(config)
         {
-            InitializeHttpClient(config);
+
         }
     }
 }

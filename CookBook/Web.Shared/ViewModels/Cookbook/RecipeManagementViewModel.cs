@@ -44,15 +44,18 @@ namespace Web.Shared.ViewModels.Cookbook
             }
         }
 
-        public RecipeManagementViewModel(IConfiguration config)
+        public RecipeManagementViewModel(IConfiguration config): base(config) 
         {
-            InitializeHttpClient(config);
         }
 
         public override async Task OnInitializedAsync()
         {
+            IsLoading = true;
+
             await LoadRecipeRequests();
             await LoadExistingRecipes();
+
+            IsLoading = false;
         }
 
         private async Task LoadRecipeRequests()

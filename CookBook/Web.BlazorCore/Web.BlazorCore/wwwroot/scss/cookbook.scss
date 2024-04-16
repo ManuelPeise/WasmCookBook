@@ -15,6 +15,26 @@ $imgSize: 250px;
   transition: all 0.2s ease-in-out;
 }
 
+.img-card img::before {
+  height: $imgSize;
+  width: $imgSize;
+  color: transparent !important;
+  content: "";
+}
+
+.img-card img::after {
+  height: $imgSize;
+  width: $imgSize;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  content: "Kein Bild";
+}
+
 .recipe-preview-img {
   min-height: $imgSize !important;
   max-height: $imgSize !important;

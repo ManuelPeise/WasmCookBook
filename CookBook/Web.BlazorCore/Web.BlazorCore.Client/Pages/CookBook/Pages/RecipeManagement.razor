@@ -47,4 +47,9 @@
             </ul>
         </div>
     </section>
+    @if (ViewModel.IsLoading == true)
+    {
+        <LoadingIndicator Label="Loading" />
+
+    }
 </div>

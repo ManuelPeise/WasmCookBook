@@ -8,12 +8,17 @@ namespace Web.Shared.ViewModels
 {
     public abstract partial class ViewModelBase : ObservableObject, IViewModelBase
     {
+        private readonly IConfiguration _configuration;
         [ObservableProperty]
         private InternalApiClient? _internalApiClient;
         [ObservableProperty]
         protected bool _isLoading;
-        [ObservableProperty]
-        protected bool _isInitialized = false;
+
+        protected ViewModelBase(IConfiguration config)
+        {
+            _configuration = config;
+            InitializeHttpClient();
+        }
 
         public virtual async Task OnInitializedAsync()
         {
@@ -28,9 +33,9 @@ namespace Web.Shared.ViewModels
             await Task.CompletedTask.ConfigureAwait(false);
         }
 
-        public virtual void InitializeHttpClient(IConfiguration config)
+        private void InitializeHttpClient()
         {
-            var baseAddress = config.GetRequiredSection("apiBaseUrl").Value;
+            var baseAddress = _configuration.GetRequiredSection("apiBaseUrl").Value;
 
             if (baseAddress == null)
             {
