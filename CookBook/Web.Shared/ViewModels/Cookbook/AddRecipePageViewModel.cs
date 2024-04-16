@@ -154,8 +154,6 @@ namespace Web.Shared.ViewModels.Cookbook
                 IngredientCategoryItems = _pageModel.IngredientCategories;
                 UnitItems = _pageModel.Units;
                 RecipeNames = _pageModel.RecipeNames;
-
-                RecipeNames = new List<string> { "Spagetti", "Schnitzel" };
             }
 
             IsLoading = false;

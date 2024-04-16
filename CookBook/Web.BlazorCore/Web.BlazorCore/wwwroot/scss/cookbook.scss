@@ -16,8 +16,10 @@ $imgSize: 250px;
 }
 
 .recipe-preview-img {
-  height: 100%;
-  width: 100%;
+  min-height: $imgSize !important;
+  max-height: $imgSize !important;
+  min-width: $imgSize !important;
+  max-width: $imgSize !important;
 }
 
 .recipe-list-group-item {

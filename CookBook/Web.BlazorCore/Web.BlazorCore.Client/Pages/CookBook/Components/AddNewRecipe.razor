@@ -14,9 +14,9 @@
                         <div class="container d-flex justify-content-center align-items-center h-100">
                             <div class="col-md-12 d-flex justify-content-center mt-3">
                                 <ImageSelector Id="recipe-img"
-                                               ImgSource="@_vm.ImgSrc"
+                                               ImgSource="@ViewModel.ImgSrc"
                                                Label="Bild"
-                                               OnChange="@_vm.HandleImageChanged" />
+                                               OnChange="@ViewModel.HandleImageChanged" />
                             </div>
                         </div>
                     </div>
@@ -28,9 +28,9 @@
                                       Validate="true"
                                       ErrorMsg="Keine Kategorie gewählt!"
                                       DefaultItem="Wähle eine Kategorie"
-                                      SelectedValue="_vm.ImportModel.RecipeCategory.CategoryId?? 0"
-                                      Items="@_vm.RecipeCategoryItems"
-                                      OnChange="@_vm.HandleRecipeCategoryChanged" />
+                                      SelectedValue="ViewModel.ImportModel.RecipeCategory.CategoryId?? 0"
+                                      Items="@ViewModel.RecipeCategoryItems"
+                                      OnChange="@ViewModel.HandleRecipeCategoryChanged" />
                         </div>
                     </div>
                     <div class="row">
@@ -39,9 +39,9 @@
                                           Validate="true"
                                           ErrorMsg="Kein Rezeptname eingegeben!"
                                           Placeholder="Rezeptname..."
-                                          TextValue="@_vm.ImportModel.Title"
-                                          Items="@_vm.RecipeNames"
-                                          OnChange="@_vm.HandleRecipeTitleChanged" />
+                                          TextValue="@ViewModel.ImportModel.Title"
+                                          Items="@ViewModel.RecipeNames"
+                                          OnChange="@ViewModel.HandleRecipeTitleChanged" />
                         </div>
                     </div>
                     <div class="row">
@@ -50,8 +50,8 @@
                                        Validate="true"
                                        ErrorMsg="Keine Rezeptbeschreibung eingegeben"
                                        Placeholder="Rezeptbeschreibung..."
-                                       TextValue="@_vm.ImportModel.ShortDescription"
-                                       OnChange="@_vm.HandleRecipeShortDescriptionChanged" />
+                                       TextValue="@ViewModel.ImportModel.ShortDescription"
+                                       OnChange="@ViewModel.HandleRecipeShortDescriptionChanged" />
                         </div>
 
                     </div>
@@ -61,18 +61,18 @@
             <div class="row">
                 <div class="col-12 p-2">
                     <div class="col-12 d-flex justify-content-end px-4">
-                        <button type="button" class="btn btn-outline-primary" @onclick="@_vm.ToggleIngredientDialogOpen">Zutaten</button>
+                        <button type="button" class="btn btn-outline-primary" @onclick="@ViewModel.ToggleIngredientDialogOpen">Zutaten</button>
                     </div>
                     <div class="container d-flex">
                         <div class="d-flex flex-wrap justify-content-start gap-2 mt-5">
-                            @for (var index = 0; index < _vm.ImportModel.Ingredients.Count(); index++)
+                            @for (var index = 0; index < ViewModel.ImportModel.Ingredients.Count(); index++)
                             {
-                                <IngredientChip Amount="@_vm.ImportModel.Ingredients[index].Amount"
-                                                Unit="@_vm.ImportModel.Ingredients[index].Unit"
-                                                Name="@_vm.ImportModel.Ingredients[index].Name"
+                                <IngredientChip Amount="@ViewModel.ImportModel.Ingredients[index].Amount"
+                                                Unit="@ViewModel.ImportModel.Ingredients[index].Unit"
+                                                Name="@ViewModel.ImportModel.Ingredients[index].Name"
                                                 AdditionalClasses="chip-blue"
                                                 Index="@index"
-                                                OnClick="@_vm.HandleRemoveIngredient" />
+                                                OnClick="@ViewModel.HandleRemoveIngredient" />
                             }
                         </div>
                     </div>
@@ -85,33 +85,33 @@
                               type="text"
                               placeholder="Zubereitungsinformationen"
                               rows="8"
-                              @oninput="_vm.HandleDescriptionChanged"
-                              value="@_vm.ImportModel.Description" />
+                              @oninput="ViewModel.HandleDescriptionChanged"
+                              value="@ViewModel.ImportModel.Description" />
                 </div>
             </div>
             <!-- Buttons -->
             <div class="row mt-5">
                 <div class="col-12 d-flex justify-content-end gap-2 px-4">
                     <a href="/cookbook" class="btn btn-outline-primary">Abbrechen</a>
-                    <button id="save-recipe-button" disabled="@_vm.SaveDisabled" class="btn btn-outline-primary" @onclick="@_vm.HandleSaveRecipe">Speichern</button>
+                    <button id="save-recipe-button" disabled="@ViewModel.SaveDisabled" class="btn btn-outline-primary" @onclick="@ViewModel.HandleSaveRecipe">Speichern</button>
                 </div>
             </div>
         </div>
     </div>
 
-    @if (_vm.IsLoading == true || _vm.IsInitialized == false)
+    @if (ViewModel.IsLoading == true)
     {
         <LoadingIndicator Label="Loading" />
 
     }
 
-    @if (_vm.IngredientDialogOpen)
+    @if (ViewModel.IngredientDialogOpen)
     {
         <AddIngredientDialog DialogTitle="Zutaten hinzufügen"
-                             IngredientCategories="@_vm.IngredientCategoryItems"
-                             Units="@_vm.UnitItems"
-                             OnAddIngredient="@_vm.HandleAddIngredient"
-                             OnClose="@_vm.HandleCloseDialog" />
+                             IngredientCategories="@ViewModel.IngredientCategoryItems"
+                             Units="@ViewModel.UnitItems"
+                             OnAddIngredient="@ViewModel.HandleAddIngredient"
+                             OnClose="@ViewModel.HandleCloseDialog" />
     }
 </div>
 
