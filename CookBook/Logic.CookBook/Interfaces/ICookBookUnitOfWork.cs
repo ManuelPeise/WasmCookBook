@@ -18,7 +18,10 @@ namespace Logic.CookBook.Interfaces
         Task<List<IngredientModel>> GetIngredients();
         Task<List<CategoryModel>> GetCategories(bool isRecipeCategory);
         Task<List<UnitModel>> GetUnits();
-        Task<bool> ImportRecipe(RecipeImportModel model);
+        Task<List<RecipeRequestExportModel>> GetRecipeImports(bool importFinished = false);
+        Task<bool> ImportRecipe(int id);
         Task<bool> ImportRecipeRequest(RecipeImportModel model);
+        Task<bool> DeleteRecipeRequest(int id);
+        Task DeleteRecipe(int recipeId);
     }
 }

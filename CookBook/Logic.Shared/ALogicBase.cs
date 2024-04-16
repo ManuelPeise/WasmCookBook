@@ -17,7 +17,7 @@ namespace Logic.Shared
             _logMessageRepo = new RepositoryBase<LogMessageEntity>(context);
         }
 
-        protected async Task<List<LogMessageEntity>> GetLogMessages(Expression<Func<LogMessageEntity, bool>>? expression = null)
+        protected async Task<List<LogMessageEntity>> GetLogMessages(Func<LogMessageEntity, bool>? expression = null)
         {
             var query = await _logMessageRepo.GetAllAsync(new DbQuery<LogMessageEntity>
             {

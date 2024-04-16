@@ -1,16 +1,30 @@
-$imgSize: 200px;
+@import "../scss/colors.scss";
+
+$imgSize: 250px;
 
 .recipe-img-card {
   min-height: $imgSize !important;
-  height: $imgSize !important;
   max-height: $imgSize !important;
   min-width: $imgSize !important;
-  width: $imgSize !important;
   max-width: $imgSize !important;
 }
 
 .recipe-img-card img:hover {
   cursor: pointer;
-  scale: 1.3;
+  scale: 1.2;
   transition: all 0.2s ease-in-out;
+}
+
+.recipe-preview-img {
+  height: 100%;
+  width: 100%;
+}
+
+.recipe-list-group-item {
+  width: 100& !important;
+}
+
+.recipe-list-group-item:hover {
+  cursor: pointer !important;
+  background-color: $light-gray !important;
 }

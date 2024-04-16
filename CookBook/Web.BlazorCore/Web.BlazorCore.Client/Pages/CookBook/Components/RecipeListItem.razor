@@ -1,0 +1,15 @@
+﻿<li class="row d-flex align-items-center list-group-item recipe-list-group-item p-2 m-0">
+    <div class="col-md-4 p-1">
+        <div class="text-muted fw-semibold">@Model.Title</div>
+    </div>
+    <div class="col-md-4 d-flex justify-content-start p-1">
+        <div class="text-muted">@Model.ShortDescription</div>
+    </div>
+    <div class="col-md-4 d-flex justify-content-end p-1">
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-danger" @onclick="@HandleDelete">
+                <i class="fa-solid fa-trash p-1"></i>
+            </button>
+        </div>
+    </div>
+</li>

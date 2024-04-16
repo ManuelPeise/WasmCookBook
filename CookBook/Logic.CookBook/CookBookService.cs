@@ -10,7 +10,7 @@ namespace Logic.CookBook
     public class CookBookService : ALogicBase, IDisposable
     {
         private readonly ICookBookUnitOfWork _cookBookUnitOfWork;
-       
+
         public CookBookService(AppDbContext dbContext, ICookBookUnitOfWork cookBookUnitOfWork) : base(dbContext)
         {
             _cookBookUnitOfWork = cookBookUnitOfWork;
@@ -41,7 +41,7 @@ namespace Logic.CookBook
 
             var model = new AddRecipePageViewModel
             {
-                RecipeCategories = (from cat in recipeCategories select new DropDownItem { Id = cat.CategoryId, Value = cat.Name}).OrderBy(x => x.Value).ToList(),
+                RecipeCategories = (from cat in recipeCategories select new DropDownItem { Id = cat.CategoryId, Value = cat.Name }).OrderBy(x => x.Value).ToList(),
                 IngredientCategories = (from cat in ingredientCategories select new DropDownItem { Id = cat.CategoryId, Value = cat.Name }).OrderBy(x => x.Value).ToList(),
                 Units = (from unit in units select new DropDownItem { Id = unit.UnitId, Value = unit.Name }).OrderBy(x => x.Value).ToList(),
                 RecipeNames = recipes.Select(recipe => recipe.Title).OrderBy(x => x).ToList(),
@@ -50,15 +50,57 @@ namespace Logic.CookBook
             return model;
         }
 
+        public async Task<List<RecipeRequestExportModel>> GetRecipeRequestModels(bool importFinished)
+        {
+            return await _cookBookUnitOfWork.GetRecipeImports(importFinished);
+        }
+
         public async Task<bool> ImportRecipe(RecipeImportModel model)
         {
             return await _cookBookUnitOfWork.ImportRecipeRequest(model);
         }
 
-        //public async Task<bool> ImportRecipe(RecipeImportModel model)
-        //{
-        //    return await _cookBookUnitOfWork.ImportRecipe(model);
-        //}
+        public async Task<List<RecipeRequestExportModel>> ImportRecipe(int id)
+        {
+            await _cookBookUnitOfWork.ImportRecipe(id);
+
+            return await GetRecipeRequestModels(false);
+        }
+
+        public async Task<List<RecipeRequestExportModel>> RejectRecipe(int id)
+        {
+            await _cookBookUnitOfWork.DeleteRecipeRequest(id);
+
+            return await GetRecipeRequestModels(false);
+        }
+
+        public async Task<List<RecipeInfoModel>> GetExistingRecipes()
+        {
+            var recipes = await _cookBookUnitOfWork.GetRecipes(null);
+
+            return (from recipe in recipes
+                    select new RecipeInfoModel
+                    {
+                        Id = recipe.RecipeId,
+                        Title = recipe.Title,
+                        ShortDescription = recipe.ShortDescription,
+                    }).ToList();
+        }
+
+        public async Task<List<RecipeInfoModel>> DeleteRecipe(int recipeId)
+        {
+            await _cookBookUnitOfWork.DeleteRecipe(recipeId);
+
+            var recipes = await _cookBookUnitOfWork.GetRecipes(null);
+
+            return (from recipe in recipes
+                    select new RecipeInfoModel
+                    {
+                        Id = recipe.RecipeId,
+                        Title = recipe.Title,
+                        ShortDescription = recipe.ShortDescription,
+                    }).ToList();
+        }
 
         #region dispose
 
@@ -70,7 +112,7 @@ namespace Logic.CookBook
             {
                 if (disposing)
                 {
-                   _cookBookUnitOfWork?.Dispose();
+                    _cookBookUnitOfWork?.Dispose();
                 }
 
                 disposedValue = true;

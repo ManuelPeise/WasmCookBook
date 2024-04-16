@@ -8,7 +8,7 @@ namespace Data.Models.Entities.CookBook
         public string Name { get; set; } = string.Empty;
         public int FkCategoryId { get; set; }
         [ForeignKey(nameof(FkCategoryId))]
-        public virtual CategoryEntity Category { get; set; } = new CategoryEntity();
-        public ICollection<RecipeIngredientEntity> RecipeIngredients { get; set; } = new List<RecipeIngredientEntity>();
+        public virtual CategoryEntity? Category { get; set; }
+        public ICollection<RecipeIngredientEntity>? RecipeIngredients { get; set; }
     }
 }

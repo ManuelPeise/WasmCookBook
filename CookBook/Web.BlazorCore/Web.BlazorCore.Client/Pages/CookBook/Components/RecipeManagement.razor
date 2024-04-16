@@ -2,4 +2,49 @@
 @inherits MvvmConponentBase<RecipeManagementViewModel>
 @rendermode InteractiveAuto
 
-<h5>Management</h5>
+<div class="container mt-4">
+    <PageHeader Title="Rezeptverwaltung" SubTitle="Verwalte die Rezepte des Kochbuches." />
+    <section class="mt-5 w-100">
+        <div class="lead py-2 ps-4 bg-secondary text-light">
+            Rezeptvorschläge
+        </div>
+        <div class="w-100">
+            <ul class="list-group list-group-flush" style="height: 30vh; overflow: scroll;">
+                @if (!ViewModel.RecipeRequests.Any())
+                {
+                    
+                    <li class="d-flex justify-content-center align-items-center list-group-item text-muted fw-semibold h-100">Keine Rezeptvorschläge vorhanden!</li>
+                }
+                else
+                {
+                    @foreach (var item in ViewModel.RecipeRequests)
+                    {
+                        <RecipeRequestListItem Model="@item"
+                                               OnApprove="@ViewModel.HandleApproveRecipeRequest"
+                                               OnReject="@ViewModel.HandleRejectRecipeRequest" />
+                    }
+                }
+            </ul>
+        </div>
+    </section>
+    <section class="mt-3 w-100">
+        <div class="lead py-2 ps-4 bg-secondary text-light">
+            Vorhandene Rezepte
+        </div>
+        <div class="w-100">
+            <ul class="list-group list-group-flush" style="height: 30vh; overflow: scroll;">
+                @if (!ViewModel.ExistingRecipes.Any())
+                {
+                    <li class="d-flex justify-content-center align-items-center list-group-item text-muted fw-semibold h-100">Keine Rezepte vorhanden!</li>
+                }
+                else
+                {
+                    @foreach (var recipe in ViewModel.ExistingRecipes)
+                    {
+                       <RecipeListItem Model="@recipe" OnDelete="@ViewModel.HandleDeleteRecipe"/> 
+                    }
+                }
+            </ul>
+        </div>
+    </section>
+</div>

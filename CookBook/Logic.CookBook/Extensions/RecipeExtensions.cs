@@ -72,8 +72,14 @@ namespace Logic.CookBook.Extensions
                 ShortDescription = model.ShortDescription,
                 Description = model.Description,
                 FKCategoryId = (int)model.RecipeCategory.CategoryId,
+                Category = null,
                 Image = model.Image,
             };
+        }
+
+        internal static RecipeImportModel ToImportModel(this RecipeImportEntity entity)
+        {
+            return JsonConvert.DeserializeObject<RecipeImportModel>(entity.Json);
         }
 
         internal static RecipeIngredientEntity ToEntity(this RecipeIngredientImportModel model, int recipeId, int ingredientId)
@@ -84,6 +90,8 @@ namespace Logic.CookBook.Extensions
                 IngredientId = ingredientId,
                 Amount = model.Amount,
                 UnitId = model.UnitId,
+                Ingredient = null,
+                Recipe = null
             };
         }
 
@@ -91,10 +99,22 @@ namespace Logic.CookBook.Extensions
         {
             return new RecipeImportEntity
             {
-               RecipeName = model.Title,
-               Json = JsonConvert.SerializeObject(model),
-               ImportedAt = DateTime.UtcNow,
-               ImportFinished = finished,    
+                RecipeName = model.Title,
+                Json = JsonConvert.SerializeObject(model),
+                ImportedAt = DateTime.UtcNow,
+                ImportFinished = finished,
+            };
+        }
+
+        internal static RecipeRequestExportModel ToExportModel(this RecipeImportEntity entity)
+        {
+            return new RecipeRequestExportModel
+            {
+                Id = entity.Id,
+                Title = entity.RecipeName,
+                Completed = entity.ImportFinished,
+                TimeStamp = entity.ImportedAt.ToString("dd.mm.yyyy hh:MM"),
+                Recipe = entity.Json != null ? JsonConvert.DeserializeObject<RecipeRequest>(entity.Json) : null
             };
         }
     }

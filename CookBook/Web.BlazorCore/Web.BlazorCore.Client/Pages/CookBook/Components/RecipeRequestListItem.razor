@@ -1,0 +1,21 @@
+﻿<li class="row d-flex align-items-center list-group-item recipe-list-group-item p-2 m-0">
+    <div class="col-md-2 p-1">
+        <div class="text-muted fw-semibold">@Model.Title</div>
+    </div>
+    <div class="col-md-4 d-flex justify-content-start p-1">
+        <div class="text-muted">@Model.Recipe.ShortDescription</div>
+    </div>
+    <div class="col-md-3 d-flex justify-content-md-end p-1">
+        <div class="text-muted">eingesendet am: @Model.TimeStamp</div>
+    </div>
+    <div class="col-md-3 d-flex justify-content-end p-1">
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-danger" @onclick="@HandleReject">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+            <button type="button" class="btn btn-outline-success" disabled="@Model.Completed" @onclick="@HandleApprove">
+                <i class="fa-solid fa-check"></i>
+            </button>
+        </div>
+    </div>
+</li>

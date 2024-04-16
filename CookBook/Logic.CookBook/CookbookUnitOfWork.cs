@@ -28,6 +28,7 @@ namespace Logic.CookBook
         public IRepositoryBase<RecipeIngredientEntity> RecipeIngredientRepository => _recipeIngredientRepository ?? new RepositoryBase<RecipeIngredientEntity>(_context);
         public IRepositoryBase<UnitEntity> IngredientUnitRepository => _ingredientUnitRepository ?? new RepositoryBase<UnitEntity>(_context);
         public IRepositoryBase<RecipeImportEntity> RecipeImportRepository => _recipeImportRepository ?? new RepositoryBase<RecipeImportEntity>(_context);
+
         public CookbookUnitOfWork(AppDbContext context) : base(context)
         {
             _context = context;
@@ -37,13 +38,9 @@ namespace Logic.CookBook
         {
             try
             {
-                var models = new List<RecipeModel>();
+                var recipes = await QueryRecipes(categoryId);
 
-                var recipes = await RecipeRepository.GetAllAsync(new DbQuery<RecipeEntity>
-                {
-                    AsNoTracking = true,
-                    WhereExpression = categoryId != null ? x => x.FKCategoryId == categoryId : null
-                });
+                var models = new List<RecipeModel>();
 
                 if (recipes.Any())
                 {
@@ -83,6 +80,7 @@ namespace Logic.CookBook
 
                         models.Add(recipe.ToUiModel(ingredients));
                     }
+
                 }
 
                 return models;
@@ -201,6 +199,41 @@ namespace Logic.CookBook
             }
         }
 
+        public async Task<List<RecipeRequestExportModel>> GetRecipeImports(bool importFinished = false)
+        {
+            try
+            {
+                var entities = await RecipeImportRepository.GetAllAsync(new DbQuery<RecipeImportEntity>
+                {
+                    AsNoTracking = true,
+                    WhereExpression = x => x.ImportFinished == importFinished
+                });
+
+
+                if (entities.Any())
+                {
+                    return (from entity in entities
+                            select entity.ToExportModel()).ToList();
+                }
+
+                return new List<RecipeRequestExportModel>();
+
+            }
+            catch (Exception exception)
+            {
+                await LogError(new LogMessageEntity
+                {
+                    Message = "Could get RecipeRequestExportModels!",
+                    ExceptionMessage = exception.Message,
+                    Stacktrace = exception.StackTrace ?? string.Empty,
+                    TimeStamp = DateTime.Now,
+                    Trigger = nameof(CookbookUnitOfWork)
+                });
+
+                return new List<RecipeRequestExportModel>();
+            }
+        }
+
         public async Task<bool> ImportRecipeRequest(RecipeImportModel model)
         {
             try
@@ -234,20 +267,87 @@ namespace Logic.CookBook
             }
         }
 
-        public async Task<bool> ImportRecipe(RecipeImportModel model)
+        public async Task<bool> DeleteRecipeRequest(int id)
         {
             try
             {
-                if(model == null)
+                await RecipeImportRepository.DeleteAsync(id);
+
+                await SaveChanges();
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                await LogError(new LogMessageEntity
+                {
+                    Message = "Could delete recipe request!",
+                    ExceptionMessage = exception.Message,
+                    Stacktrace = exception.StackTrace ?? string.Empty,
+                    TimeStamp = DateTime.Now,
+                    Trigger = nameof(CookbookUnitOfWork)
+                });
+
+                return false;
+            }
+        }
+
+        public async Task<bool> ImportRecipe(int id)
+        {
+            try
+            {
+                var entity = await RecipeImportRepository.GetFirstOrDefaultAsync(new DbQuery<RecipeImportEntity>
+                {
+                    AsNoTracking = true,
+                    WhereExpression = x => x.Id == id
+                });
+
+                if (entity == null)
                 {
                     return false;
                 }
 
-                var recipe = model.ToEntity();
+                var importModel = entity.ToImportModel();
 
-                return true;
+                if (importModel == null)
+                {
+                    return false;
+                }
 
-            }catch (Exception exception)
+                var recipe = importModel.ToEntity();
+
+
+                if (recipe == null)
+                {
+                    return false;
+                }
+
+                var (recipeId, inserted) = await RecipeRepository.AddIfNotExists(recipe, x => x.Title.Equals(importModel.Title) &&
+                x.ShortDescription.Equals(importModel.ShortDescription), true);
+
+                if (inserted)
+                {
+                    foreach (var ingredientModel in importModel.Ingredients)
+                    {
+                        var ingredientId = await GetIngredientId(ingredientModel);
+
+                        await RecipeIngredientRepository.AddIfNotExists(ingredientModel.ToEntity(recipeId, ingredientId), x => x.IngredientId == ingredientId && x.RecipeId == recipeId, true);
+                    }
+
+                    entity.ImportFinishedAt = DateTime.Now;
+                    entity.ImportFinished = true;
+
+                    await RecipeImportRepository.UpdateAsync(entity, x => x.Id == entity.Id);
+
+                    await SaveChanges();
+
+                    return true;
+                }
+
+                return false;
+
+            }
+            catch (Exception exception)
             {
                 await LogError(new LogMessageEntity
                 {
@@ -262,7 +362,120 @@ namespace Logic.CookBook
             }
         }
 
+        public async Task DeleteRecipe(int recipeId)
+        {
+            try
+            {
+                var databaseModified = false;
+
+                var recipe = await QueryRecipe(recipeId);
+
+                if(recipe == null)
+                {
+                    return;
+                }
+
+                var recipeIngredients = await QueryRecipeIngredients(recipe.RecipeId);
+
+                foreach(var ingredient in recipeIngredients)
+                {
+                    await RecipeIngredientRepository.DeleteAsync(ingredient.IngredientId);
+
+                    databaseModified = true;
+                }
+
+                await RecipeRepository.DeleteAsync(recipe.RecipeId);
+
+                if (databaseModified)
+                {
+                    await SaveChanges();
+
+                }
+
+            }
+            catch(Exception exception)
+            {
+                await LogError(new LogMessageEntity
+                {
+                    Message = $"Could delete recipe {recipeId}!",
+                    ExceptionMessage = exception.Message,
+                    Stacktrace = exception.StackTrace ?? string.Empty,
+                    TimeStamp = DateTime.Now,
+                    Trigger = nameof(CookbookUnitOfWork)
+                });
+            }
+        }
+
         #region dispose
+
+        private async Task<List<RecipeEntity>> QueryRecipes(int? categoryId = null)
+        {
+            var recipeCollection = new List<RecipeEntity>();
+
+            using (var repo = RecipeRepository)
+            {
+                var recipes = await repo.GetAllAsync(new DbQuery<RecipeEntity>
+                {
+                    AsNoTracking = true,
+                    WhereExpression = categoryId != null ? x => x.FKCategoryId == categoryId : null
+                });
+
+                recipeCollection =  recipes.ToList();
+            }
+
+            return recipeCollection;
+        }
+
+        private async Task<RecipeEntity?> QueryRecipe(int id)
+        {
+            RecipeEntity? recipe = null;
+
+            using (var repo = RecipeRepository)
+            {
+                var entity = await repo.GetFirstOrDefaultAsync(new DbQuery<RecipeEntity>
+                {
+                    AsNoTracking = true,
+                    WhereExpression = x => x.RecipeId == id
+                });
+
+                recipe = entity;
+            }
+
+            return recipe;
+        }
+
+        private async Task<List<RecipeIngredientEntity>> QueryRecipeIngredients(int recipeId)
+        {
+            var ingredientCollection = new List<RecipeIngredientEntity>();
+
+            using (var repo = RecipeIngredientRepository)
+            {
+                var recipes = await repo.GetAllAsync(new DbQuery<RecipeIngredientEntity>
+                {
+                    AsNoTracking = true,
+                    WhereExpression = x => x.RecipeId == recipeId
+                });
+
+                ingredientCollection = recipes.ToList();
+            }
+
+            return ingredientCollection;
+        }
+
+        private async Task<int> GetIngredientId(RecipeIngredientImportModel model)
+        {
+            var (id, imported) = await IngredientRepository.AddIfNotExists(new IngredientEntity
+            {
+                Name = model.Name,
+                FkCategoryId = model.CategoryId,
+                Category = null,
+                RecipeIngredients = null
+
+            }, x => x.FkCategoryId == model.CategoryId && x.Name.Equals(model.Name), true);
+
+            return id;
+        }
+
         private bool disposedValue;
 
         protected virtual void Dispose(bool disposing)
